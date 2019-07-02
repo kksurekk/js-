@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link type="text/css" rel="stylesheet" href="font/iconfont.css">
+
+    <style>
+    #box{
+        width:1200px;
+        height:800px;
+        position: relative;
+        margin:40px auto;
+    }
+    img{
+        width:1200px;
+        height:800px;
+    }
+    #box a{
+        display: block;
+        width:50px;
+        height:50px;
+        text-decoration: none;
+        color:#fff;
+        position:absolute;
+        top:50%;
+        margin-top:-50px;
+    }
+    .iconfont{
+        font-size: 32px;
+    }
+     #prev{
+        left:0;
+     }
+     #next{
+         right:0;
+     }
+
+    ul{
+        position:absolute;
+        bottom: 20px;
+        right:60px;
+    }
+    li{
+        display: inline-block;
+        width:12px;
+        height:12px;
+        background:rgb(228, 215, 215);
+        margin-right: 10px;
+        border-radius: 50%;
+        list-style: none;
+
+    }
+    ul li.cur{
+        background-color:#FF0;
+    }
+
+    </style>
+</head>
+<body>
+    <div id="box">
+        <img src="images/22.jpg">
+        <a href="#" class="btn" id="prev"><i class="iconfont icon-xiangzuo"></i></a>
+        <a href="#" class="btn" id="next"><i class="iconfont icon-you"></i></a>
+        <ul id="list">
+            <!-- <li></li> -->
+        </ul>
+    </div>
+    <script>
+    var box=document.getElementById('box'),
+        list=document.getElementById('list'),
+        a=document.getElementsByTagName('a'),
+        img=document.getElementsByTagName('img')[0];
+        
+
+    var arrImg=['images/22.jpg','images/23.jpg','images/24.jpg','images/25.jpg','images/26.jpg'];
+    var num=0;
+    var timer=null;
+
+    for(var i=0;i<arrImg.length;i++){
+        list.innerHTML+='<li></li>';
+
+    }
+    var li=document.getElementsByTagName('li');
+    function fn(){
+        img.src=arrImg[num];
+        li[num].className='cur';
+    }
+    fn();
+    function clear(){
+        for(var i=0;i<arrImg.length;i++){
+            li[i].className='';
+        }
+    }
+    a[1].onclick=function(){
+        num++;
+		num%=arrImg.length;
+		clear();
+		fn();
+    }
+    a[0].onclick=function(){
+        num--;
+        if(num<0){
+            num=arrImg.length-1;
+        }
+
+        clear();
+        fn();
+    }
+    for(var j=0;j<li.length;j++){
+		li[j].index=j;
+        li[j].onclick=function(){
+            clear();
+            img.src=arrImg[this.index];
+            li[this.index].className='cur';
+            num=this.index;
+    } 
+    
+    } 
+    function autoPlay(){
+        timer=setInterval(function(){
+            num++;
+            num%=arrImg.length;
+            clear();
+            fn();
+        },2000)
+            
+    }
+    autoPlay();
+    box.onmouseover=function(){
+        clearInterval(timer);
+    }
+    box.onmouseout=autoPlay;
+
+    
+
+
+    
+    </script>
+    
+</body>
+</html>
